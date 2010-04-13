@@ -2,25 +2,27 @@
 \Rdversion{1.1}
 \alias{phylo}
 \title{
- Phylogenetic proximity from neurodevelopmental event timings.
+ Phylogenetic proximity between species inferred from their neurodevelopmental event timing
 }
 
 \description{
-Hierarchical clustering with euclidean metric and complete linkage establishing possible phylogenetic proximity between the species from the known and predicted events (Nagarajan and Clancy, 2008). Uncertainty in the clustering results is investigated using pvclust. 
+
+Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings  (Nagarajan and Clancy, 2008) returned by the function \emph{translate}. Complete linkage and euclidean metric are used for generating the dendrogram. Uncertainty in the clustering results is reflected by the \emph{au} (approximately unbiased) and \emph{bp} (bootstrap) probabilities (Shimodaira and Suzuki, 2006).
+
 }
 
 \usage{
-  phylo(out)
+  phylo(data)
 }
 
 \arguments{
-  \item{out}{
-	Predicted neurdevelopmental events.
+  \item{data}{
+	A data frame containing the known and predicted neurodevelopmental event timing across species returned by the function \emph{translate}. 
    }
 }
 
 \value{
-Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings. Complete linkage and euclidean metric are used are arguements in constructing the dendrogram.
+The function generates a dendrogram and does return any values (NULL). 
 }
 
 
@@ -38,7 +40,7 @@ Radhakrishnan Nagarajan
 \examples{
 library(ttime);
 data(event_data); # event timing data
-npsp <- 8;  # number of non-primate species
-out <- translate(event_data, npsp); # predicted events
-phylo(out); # hierarchical clustering
+npsp <- 8;  	  # number of non-primate species
+data <- translate(event_data, npsp); # predicted events
+phylo(data); 	  # hierarchical clustering
 }

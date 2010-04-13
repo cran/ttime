@@ -10,23 +10,24 @@ mat0 <- matrix(0,tmp,5); off <- 0;
       options(warn = -1);
 
 for (i in 1:sp){
-        ind <- which(y[,i] > 0 ); 
+          ind <- which(y[,i] > 0 ); 
           len <- length(ind); 
           tmp1 <- off+1; tmp2 <- off+len;
-    mat0[tmp1:tmp2,1] <- ind; 
+          mat0[tmp1:tmp2,1] <- ind; 
           mat0[tmp1:tmp2,2] <- i; 
           mat0[tmp1:tmp2,3] <- y[ind,i];  
-    mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
+          mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
           mat0[tmp1:tmp2,5] <- y[ind,sp+2]*floor(i/(npsp+1));
-    off <- off + len; 
+          off <- off + len; 
           rm(ind); rm(tmp1); rm(tmp2);
 }
 
-x <- mat0; len <- length(unique(x[,1])); 
+       x <- mat0; len <- length(unique(x[,1])); 
 
       tmp1 <- len + sp + 2 + 1; tmp2 <- dim(x);  num <- len + sp + 2;
       mat <- matrix(0,tmp2[1],tmp1); off <- 0;
       rm(tmp1); rm(tmp2);
+
 for (i in 1:sp){
   ind <- which(x[,2] == i); 
   tmp1 <- off+1; tmp2 <- off+length(ind);
@@ -66,16 +67,18 @@ for (i in 1:sp){
 
   pred_val <- matrix(0,nspecies_confi,ev); 
   tmp1<- sp+1; tmp2 <- sp+2; tmp <- y[,tmp1:tmp2]; rm(tmp1); rm(tmp2);
+
 for (i in 1:sp){
+ if (i > 1) cat("Percent Completed:",floor((i/sp)*100), "%\n");
   for (j in 1:ev){
        arr <- array(0,dm[2]-1);               
        cnt1 <- i; 
              cnt2 <- sp + j; 
              cnt3 <- sp+ev+1; 
              cnt4 <- sp+ev+2;
-       arr[cnt1] <- 1; arr[sp+j] <- 1; 
-             arr[cnt3] <- tmp[j,1]*floor(i/(npsp+1)); 
-             arr[cnt4] <- tmp[j,2]*floor(i/(npsp+1));
+             arr[cnt1] <- 1; arr[sp+j] <- 1; 
+             arr[cnt3] <- tmp[j,1]*floor(i/(npsp+1)); ; 
+             arr[cnt4] <- tmp[j,2]*floor(i/(npsp+1)); ;
        write.table(t(arr),'tmp.txt'); rdarr <- read.table('tmp.txt'); 
        tmp22 <- predict.lm(fit1,data.frame(rdarr), interval = "confidence");
        lwr <- 3*(i-1)+1; upr <- 3*i;
@@ -83,6 +86,8 @@ for (i in 1:sp){
        rm(tmp22); rm(arr);
   }
 }
+cat("Done........\n");
+
   unlink('tmp.txt');
   tpred <- exp(t(pred_val))+cval; 
 
@@ -96,4 +101,5 @@ for (i in 1:sp){
   names(tmp) <- namesx2;
   out <- tmp; 
 }
+
 

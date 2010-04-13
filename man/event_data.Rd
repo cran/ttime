@@ -6,7 +6,7 @@
 Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals (8 non-primates and 2 primates).
 }
 \description{
-Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals. Unknown events are represented by zeros.
+Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals (i.e. 8 non-primates and 2 primates). Unknown events are represented by zeros. The structure of the data set is shown below. The ordering of the columns is such that the event timings of the non-primate species precede those of primate species. The order of the columns in \emph{event_data} is shown below.
 }
 \usage{data(event_data)}
 \format{
@@ -29,8 +29,9 @@ Neurodevelopmental event timing data consisting of 106 known and unknown events 
  }
 }
 \examples{
-#Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 species.
-#The columns are arranged in the order described above
+#Neurodevelopmental event timing data consisting of 106 known and unknown 
+#events across 10 species. The columns are arranged in the order described 
+#above
 library(ttime);
 data(event_data);
 }
