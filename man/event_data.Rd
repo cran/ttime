@@ -37,7 +37,10 @@ data(event_data);
 }
 \seealso{http://www.translatingtime.net/}
 
-\references{Finlay BL, Darlington RB. (1995) \emph{Linked regularities in the development and evolution of mammalian brains.} Science, 268 (5217): 1578-84.\cr
-Clancy B, Darlington RB, Finlay BL. (2000) \emph{The course of human events:  predicting the timing of primate neural development.} Developmental Science 2000;3:57-66.}
+\references{
+Finlay, B.L., & Darlington, R.B. (1995). \emph{Linked regularities in the development and evolution of mammalian brains.} Science, 268,1578-1584.\cr
+
+Clancy, B., Darlington, R.B., & Finlay, B.L. (2000).  \emph{The course of human events:  predicting the timing of primate neural development.} Developmental Science, 3, 57-66.\cr
+}
 
 

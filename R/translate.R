@@ -65,8 +65,19 @@ for (i in 1:sp){
   tmp <- which(cval_arr == max(cval_arr)); cval <- (tmp-1)/10; rm(tmp);
   fit1 <- lm(formula = log(exp(inpval)-cval)~., data = inp[,1:num]); 
 
-  pred_val <- matrix(0,nspecies_confi,ev); 
-  tmp1<- sp+1; tmp2 <- sp+2; tmp <- y[,tmp1:tmp2]; rm(tmp1); rm(tmp2);
+ tmp1 <- summary(fit1); tmp2 <- inpval; tmp3 <- log(exp(predict(fit1))+cval);
+ mn <- min(min(tmp2),min(tmp3)); mx <- max(max(tmp2),max(tmp3));
+ dev.new();
+ plot(tmp2,tmp3, ylim=c(mn, mx), xlim=c(mn, mx), xlab = "log(Post-Conceptional Days), Empirically Derived", ylab = "log(Post-Conceptional Days), Predicted");
+ txt1 <- expression(paste("Adjusted R"^{2}, "=                                 "));
+ txt2 <- paste(round(tmp1$adj.r.squared,2));
+ text(mx-2,mx-0.1,txt1); text(mx-2,mx-0.1,txt2); 
+ title('Scatter Plot', font.main = 1);
+
+ rm(tmp1); rm(tmp2); rm(tmp3);
+
+ pred_val <- matrix(0,nspecies_confi,ev); 
+ tmp1<- sp+1; tmp2 <- sp+2; tmp <- y[,tmp1:tmp2]; rm(tmp1); rm(tmp2);
 
 for (i in 1:sp){
  if (i > 1) cat("Percent Completed:",floor((i/sp)*100), "%\n");

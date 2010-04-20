@@ -10,6 +10,6 @@ function (data){
    rm(tmp); dat <- data.frame(dat);
    for (i in 1:sp) colnames(dat)[i] <- tmp2[i];
    tmp  <- pvclust(dat, method.dist="euclidean", method.hclust = "complete", nboot = 1000);
-   plot(tmp); rm(tmp);
+   dev.new(); plot(tmp); rm(tmp); 
 }
 

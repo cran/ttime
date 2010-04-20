@@ -7,7 +7,7 @@
 
 \description{
 
-Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings  (Nagarajan and Clancy, 2008) returned by the function \emph{translate}. Complete linkage and euclidean metric are used for generating the dendrogram. Uncertainty in the clustering results is reflected by the \emph{au} (approximately unbiased) and \emph{bp} (bootstrap) probabilities (Shimodaira and Suzuki, 2006).
+Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings  (Nagarajan and Clancy 2008) returned by the function \emph{translate}. Complete linkage and euclidean metric are used for generating the dendrogram. Uncertainty in the clustering results is reflected by the \emph{au} (approximately unbiased) and \emph{bp} (bootstrap) probabilities (Shimodaira and Suzuki 2006).
 
 }
 
@@ -26,8 +26,10 @@ The function generates a dendrogram and does return any values (NULL).
 }
 
 
-\references{Nagarajan, R and Clancy, B (2008) \emph{Phylogenetic Proximity Revealed by Neurodevelopmental Event Timings.} Neuroinformatics, 6(2), 71-79. \cr
-Suzuki, R Shimodaira, H (2006) \emph{Pvclust: an R package for assessing the uncertainty in hierarchical clustering.} Bioinformatics 22, 1540-1542.
+\references{
+Nagarajan, R., & Clancy, B. (2008). \emph{Phylogenetic proximity revealed by neurodevelopmental event timings.} Neuroinformatics, 6, 71-79.\cr
+
+Suzuki, R., Shimodaira, H. (2006). \emph{Pvclust: an R package for assessing the uncertainty in hierarchical clustering.} Bioinformatics, 22,1540-1542.\cr
 
 }
 
