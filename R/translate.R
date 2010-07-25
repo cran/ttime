@@ -1,116 +1,133 @@
 translate <-
 function (yo, npsp) {
-      tmp <- dim(yo); dimx1 <- tmp[2]-1; namesx1 <- names(yo);
-      y = yo[,2:dimx1];
-      tmp <- dim(y); r <- tmp[1]; c <- tmp[2]; sp   <- c - 2;  ev <- r; 
+
+      dim_yo <- dim(yo);        #Dimension of the given matrix yo
+      col_names <- names(yo);   #Names of the columns in yo
+      y = yo[,2:(dim_yo[2]-1)]; #Matrix after trimming the columns (event names and references)
+
+      #Number of species in the given data 
+      sp   <- dim_yo[2] - 4;  
+      #Number of events in the given data
+      ev <- dim_yo[1];  
       
-tmp <- 0; for (i in 1:sp)
-      tmp <- tmp + length(which(y[,i] > 0));
-mat0 <- matrix(0,tmp,5); off <- 0;
-      options(warn = -1);
+     #Number of known event timing
+     event_count <- 0; 
+     for (i in 1:sp) event_count <- event_count + length(which(y[,i] > 0));
 
-for (i in 1:sp){
-          ind <- which(y[,i] > 0 ); 
-          len <- length(ind); 
-          tmp1 <- off+1; tmp2 <- off+len;
-          mat0[tmp1:tmp2,1] <- ind; 
-          mat0[tmp1:tmp2,2] <- i; 
-          mat0[tmp1:tmp2,3] <- y[ind,i];  
-          mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
-          mat0[tmp1:tmp2,5] <- y[ind,sp+2]*floor(i/(npsp+1));
-          off <- off + len; 
-          rm(ind); rm(tmp1); rm(tmp2);
-}
+#################################################################################
+#   Mapping the matrix 'y' into a matrix 'mat' suitable for the regression
+#################################################################################
+     mat0 <- matrix(0,event_count,5); off <- 0;
+     options(warn = -1);
 
-       x <- mat0; len <- length(unique(x[,1])); 
+     for (i in 1:sp){
+      	    ind <- which(y[,i] > 0 ); len <- length(ind); 
+	          tmp1 <- off+1; tmp2 <- off+len;               #temporary variables 
+	          mat0[tmp1:tmp2,1] <- ind; 
+	          mat0[tmp1:tmp2,2] <- i; 
+	          mat0[tmp1:tmp2,3] <- y[ind,i];  
+	          mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
+	          mat0[tmp1:tmp2,5] <- y[ind,sp+2]*floor(i/(npsp+1));
+	          off <- off + len; 
+	          rm(ind); rm(tmp1); rm(tmp2);                 
+     } # end of loop for i
 
-      tmp1 <- len + sp + 2 + 1; tmp2 <- dim(x);  num <- len + sp + 2;
-      mat <- matrix(0,tmp2[1],tmp1); off <- 0;
-      rm(tmp1); rm(tmp2);
+     mat <- matrix(0,event_count,(ev + sp + 2 + 1));
 
-for (i in 1:sp){
-  ind <- which(x[,2] == i); 
-  tmp1 <- off+1; tmp2 <- off+length(ind);
-  mat[tmp1:tmp2,i] <- 1; colpos <- x[ind,1];
-        rm(tmp1); rm(tmp2);
-  for (j in 1:length(ind)){
-    tmp1 <- off+j; 
-                tmp2 <- sp + colpos[j];
-    mat[tmp1,tmp2] <- 1;
-               rm(tmp1); rm(tmp2);
-  }
-  off <- off + length(ind);
-}
-    tmp1 <- len+sp+1; tmp2 <- len+sp+2; tmp3 <- len+sp+3;
-    mat[,tmp1] = x[,4]; 
-    mat[,tmp2] = x[,5]; 
-    mat[,tmp3] = log(x[,3]);
-
-    write.table(mat,'tmp.txt', row.names = FALSE, col.names = FALSE); 
-    inp <- read.table('tmp.txt', header = FALSE); unlink('tmp.txt');
-    dm <- dim(inp); nspecies_confi <- 3*sp
-    tmp <- names(inp); p <- paste('inp$',tmp[dm[2]], sep =''); inpval <- eval(parse(text = p)); rm(p); rm(tmp);
-    mn <- floor(exp(min(inpval))); tmp <- mn*sp-1;
-    cval_arr <- array(0,tmp); 
-
-    for (i in 1:tmp){
-      tmp1 <- (i-1)/10;
-      tmp2 <- lm(formula = log(exp(inpval)-tmp1)~., data = inp[,1:num]);  
-      tmp3 <- summary(tmp2);
-      tmp4 <- sqrt(tmp3$r.squared);
-      cval_arr[i] <- tmp3$r.squared;
-      rm(tmp1); rm(tmp2); rm(tmp3);
+     off <- 0;                                                #temporary variable
+     for (i in 1:sp){
+	  ind <- which(mat0[,2] == i); 
+	  mat[(off+1):(off+length(ind)),i] <- 1; colpos <- mat0[ind,1];
+	  for (j in 1:length(ind))
+        mat[(off+j),(sp+colpos[j])] <- 1;
+	  off <- off + length(ind);
     }
-  rm(tmp);
-  tmp <- which(cval_arr == max(cval_arr)); cval <- (tmp-1)/10; rm(tmp);
-  fit1 <- lm(formula = log(exp(inpval)-cval)~., data = inp[,1:num]); 
 
- tmp1 <- summary(fit1); tmp2 <- inpval; tmp3 <- log(exp(predict(fit1))+cval);
+    mat[,(ev+sp+1)] = mat0[,4]; 
+    mat[,(ev+sp+2)] = mat0[,5]; 
+    mat[,(ev+sp+3)] = log(mat0[,3]);
+
+# Converting 'mat' into a data frame 
+    mat <- as.data.frame(mat);
+
+
+#################################################################################
+#   Determining the optimum value of 'k'
+#################################################################################
+
+    dm <- dim(mat); 
+    p <- paste('mat$',names(mat)[dm[2]], sep =''); inpval <- eval(parse(text = p)); rm(p);
+    mn <- floor(exp(min(inpval)));
+
+    #Array containing correlation between predicted and empirical vals
+    step_size <- 10; corr_arr <- array(0,(mn*step_size)); 
+
+    for (i in 1:(mn*step_size))
+    corr_arr[i] <- sqrt(summary(lm(formula = log(exp(inpval)-((i-1)/step_size))~., data = mat[,1:(ev+sp+2)]))$r.squared); 
+    
+    k <- (which(corr_arr == max(corr_arr))-1)/10;
+
+
+#################################################################################
+#   The model
+#################################################################################
+
+ fit <- lm(formula = log(exp(inpval) - k)~., data = mat[,1:(ev+sp+2)]); 
+
+########################################################################################
+# Plot of the given empirical values against its predicted counterpart in the log-scale
+########################################################################################
+
+ tmp2 <- inpval; tmp3 <- log(exp(predict(fit)) + k);  #temporary variables 
  mn <- min(min(tmp2),min(tmp3)); mx <- max(max(tmp2),max(tmp3));
  dev.new();
  plot(tmp2,tmp3, ylim=c(mn, mx), xlim=c(mn, mx), xlab = "log(Post-Conceptional Days), Empirically Derived", ylab = "log(Post-Conceptional Days), Predicted");
+ rm(tmp2); rm(tmp3);
  txt1 <- expression(paste("Adjusted R"^{2}, "=                                 "));
- txt2 <- paste(round(tmp1$adj.r.squared,2));
+ txt2 <- paste(round(summary(fit)$adj.r.squared,2));
  text(mx-2,mx-0.1,txt1); text(mx-2,mx-0.1,txt2); 
  title('Scatter Plot', font.main = 1);
+ 
 
- rm(tmp1); rm(tmp2); rm(tmp3);
 
- pred_val <- matrix(0,nspecies_confi,ev); 
- tmp1<- sp+1; tmp2 <- sp+2; tmp <- y[,tmp1:tmp2]; rm(tmp1); rm(tmp2);
+#################################################################################
+#Predicting the unknown event timings
+#################################################################################
+
+pred_val <- matrix(0,(3*sp),ev); 
 
 for (i in 1:sp){
  if (i > 1) cat("Percent Completed:",floor((i/sp)*100), "%\n");
   for (j in 1:ev){
        arr <- array(0,dm[2]-1);               
-       cnt1 <- i; 
-             cnt2 <- sp + j; 
-             cnt3 <- sp+ev+1; 
-             cnt4 <- sp+ev+2;
-             arr[cnt1] <- 1; arr[sp+j] <- 1; 
-             arr[cnt3] <- tmp[j,1]*floor(i/(npsp+1)); ; 
-             arr[cnt4] <- tmp[j,2]*floor(i/(npsp+1)); ;
-       write.table(t(arr),'tmp.txt'); rdarr <- read.table('tmp.txt'); 
-       tmp22 <- predict.lm(fit1,data.frame(rdarr), interval = "confidence");
-       lwr <- 3*(i-1)+1; upr <- 3*i;
-       pred_val[lwr:upr,j] <- tmp22;
-       rm(tmp22); rm(arr);
-  }
-}
+       arr[i] <- 1; arr[sp+j] <- 1; 
+       arr[sp+ev+1] <- y[j,(sp+1)]*floor(i/(npsp+1));
+       arr[sp+ev+2] <- y[j,(sp+2)]*floor(i/(npsp+1)); 
+       pred_val[(3*(i-1)+1):(3*i),j] <- predict.lm(fit,as.data.frame(t(arr)), interval = "confidence");;
+       rm(arr);
+  } # end of loop for j
+} # end of loop for i
 cat("Done........\n");
 
-  unlink('tmp.txt');
-  tpred <- exp(t(pred_val))+cval; 
+# Predicted event timing values retruned by the function translate through 'results'
 
-  tmp <- cbind(data.frame(yo[,1]),tpred,yo[,dimx1-1],yo[,dimx1], yo[,dimx1+1]); 
-  namesx2 <- array('x',3*sp+2); namesx1[1] ='';
+tpred <- exp(t(pred_val)) + k; 
+
+#Output of the predicted and empirical values along with their confidence intervals in "results"
+results <- cbind(data.frame(yo[,1]),tpred,yo[,(sp+2)],yo[,(sp+3)], yo[,(sp+4)]); 
+col_names_out <- array('x',3*sp+2); col_names[1] ='';
+
   for (i in 1:sp){
-   tmp1 <- 3*(i-1)+2; tmp2 <- i+1;
-   namesx2[tmp1] <- namesx1[tmp2]; namesx2[tmp1+1] = "Lwr"; namesx2[tmp1+2] = "Upr";
+     col_names_out[3*(i-1)+2] <- col_names[i+1]; 
+     col_names_out[3*(i-1)+3] = "Lwr"; 
+     col_names_out[3*(i-1)+4] = "Upr";
   }
-  namesx2[1] <- "Event Name"; namesx2[3*sp+2] <- "Cortical"; namesx2[3*sp+3] <- "Limbic"; namesx2[3*sp+4] <- "Reference";
-  names(tmp) <- namesx2;
-  out <- tmp; 
-}
+  col_names_out[1] <- "Event Name"; col_names_out[3*sp+2] <- "Cortical"; col_names_out[3*sp+3] <- "Limbic"; col_names_out[3*sp+4] <- "Reference";
+  names(results) <- col_names_out;
+  
+  results; 
+
+} # end of function translate
+
 
 

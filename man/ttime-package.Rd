@@ -1,5 +1,5 @@
 \name{ttime-package}
-\Rdversion{1.1}
+\Rdversion{1.2.2}
 \alias{ttime-package}
 \alias{ttime}
 \docType{package}
@@ -15,7 +15,7 @@ Neurdevelopmental event timing sequence is conserved across species (Finlay and 
 \tabular{ll}{
 Package: \tab ttime\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.2.2\cr
 Date: \tab 2010-01-15\cr
 License: \tab GPL >=2.0 \cr
 LazyLoad: \tab yes
@@ -47,7 +47,7 @@ data(event_data);
 #Number of non-primate species in event_data
 npsp <- 8;   
 #Predict the unknown event timings and their 95% confidence interval
-out <- translate(event_data, npsp);  
+pred_vals <- translate(event_data, npsp);  
 #Dendrogram by hierachical clustering of the event timings
-phylo(out); 
+phylo(pred_vals); 
 }
