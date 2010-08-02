@@ -21,26 +21,26 @@ function (yo, npsp) {
      options(warn = -1);
 
      for (i in 1:sp){
-      	    ind <- which(y[,i] > 0 ); len <- length(ind); 
-	          tmp1 <- off+1; tmp2 <- off+len;               #temporary variables 
-	          mat0[tmp1:tmp2,1] <- ind; 
-	          mat0[tmp1:tmp2,2] <- i; 
-	          mat0[tmp1:tmp2,3] <- y[ind,i];  
-	          mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
-	          mat0[tmp1:tmp2,5] <- y[ind,sp+2]*floor(i/(npsp+1));
-	          off <- off + len; 
-	          rm(ind); rm(tmp1); rm(tmp2);                 
+          ind <- which(y[,i] > 0 ); len <- length(ind); 
+          tmp1 <- off+1; tmp2 <- off+len;               #temporary variables 
+          mat0[tmp1:tmp2,1] <- ind; 
+          mat0[tmp1:tmp2,2] <- i; 
+          mat0[tmp1:tmp2,3] <- y[ind,i];  
+          mat0[tmp1:tmp2,4] <- y[ind,sp+1]*floor(i/(npsp+1)); 
+          mat0[tmp1:tmp2,5] <- y[ind,sp+2]*floor(i/(npsp+1));
+          off <- off + len; 
+          rm(ind); rm(tmp1); rm(tmp2);                 
      } # end of loop for i
 
      mat <- matrix(0,event_count,(ev + sp + 2 + 1));
 
      off <- 0;                                                #temporary variable
      for (i in 1:sp){
-	  ind <- which(mat0[,2] == i); 
-	  mat[(off+1):(off+length(ind)),i] <- 1; colpos <- mat0[ind,1];
-	  for (j in 1:length(ind))
+  ind <- which(mat0[,2] == i); 
+  mat[(off+1):(off+length(ind)),i] <- 1; colpos <- mat0[ind,1];
+  for (j in 1:length(ind))
         mat[(off+j),(sp+colpos[j])] <- 1;
-	  off <- off + length(ind);
+  off <- off + length(ind);
     }
 
     mat[,(ev+sp+1)] = mat0[,4]; 
@@ -128,6 +128,4 @@ col_names_out <- array('x',3*sp+2); col_names[1] ='';
   results; 
 
 } # end of function translate
-
-
 

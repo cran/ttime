@@ -1,5 +1,5 @@
 phylo <-
-  function (data){
+function (data){
 
    size <- dim(data);              # Size of 'data'
    ev <- size[1];                  # Number of events
