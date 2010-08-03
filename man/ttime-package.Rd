@@ -1,5 +1,5 @@
 \name{ttime-package}
-\Rdversion{1.2.3}
+\Rdversion{1.2.4}
 \alias{ttime-package}
 \alias{ttime}
 \docType{package}
@@ -7,7 +7,7 @@
 Translate Neurodevelopmental Event Timing Across Species
 }
 \description{
-Neurdevelopmental event timing sequence is conserved across species (Finlay and Darlington 1995). However, only a handful of event timings have been determined experimentally. The ttime package implements the necessary functions to translate (Finlay and Darlington 1995; Clancy et al., 2000) neurdoevelopmental event timing across species and investigate possible phylogenetic relationships (Nagarajan and Clancy 2008). Unknown events across species are predicted using the model \emph{score + event score = ln(post-conceptional day - k)} proposed in (Finlay and Darlington 1995; Clancy et al., 2000).
+Neurdevelopmental event timing sequence is conserved across species (Finlay and Darlington 1995). However, only a handful of event timings have been determined experimentally. The ttime package implements the necessary functions to translate neurdoevelopmental event timing across species (Finlay and Darlington 1995; Clancy et al., 2000) and investigate possible phylogenetic relationships (Nagarajan and Clancy 2008). Unknown events across species are predicted using the model \emph{score + event score = ln(post-conceptional day - k)} proposed in (Finlay and Darlington 1995; Clancy et al., 2000).
 
 }
 
@@ -15,8 +15,8 @@ Neurdevelopmental event timing sequence is conserved across species (Finlay and 
 \tabular{ll}{
 Package: \tab ttime\cr
 Type: \tab Package\cr
-Version: \tab 1.2.3\cr
-Date: \tab 2010-08-02\cr
+Version: \tab 1.2.4\cr
+Date: \tab 2010-08-03\cr
 License: \tab GPL >=2.0 \cr
 LazyLoad: \tab yes
  }

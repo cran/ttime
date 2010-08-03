@@ -1,12 +1,12 @@
 \name{event_data}
-\Rdversion{1.2.3}
+\Rdversion{1.2.4}
 \alias{event_data}
 \docType{data}
 \title{
 Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals (8 non-primates and 2 primates).
 }
 \description{
-Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals (i.e. 8 non-primates and 2 primates). Unknown events are represented by zeros. The structure of the data set is shown below. The ordering of the columns is such that the event timings of the non-primate species precede those of primate species. The order of the columns in \emph{event_data} is shown below.
+Neurodevelopmental event timing data consisting of 106 known and unknown events across 10 mammals (i.e. 8 non-primates and 2 primates). Unknown events are represented by zeros. The ordering of the columns is such that the event timings of the non-primate species precede those of primate species. The structure of the \emph{event_data} is shown below.
 }
 \usage{data(event_data)}
 \format{

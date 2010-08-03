@@ -1,8 +1,8 @@
 Package: ttime
 Type: Package
-Title: What the package does (short line)
-Version: 1.2.3
-Date: 2010-08-02
+Title: Translate Neurodevelopmental Event Timing Across Species
+Version: 1.2.4
+Date: 2010-08-03
 Author: Radhakrishnan Nagarajan
 Maintainer: Radhakrishnan Nagarajan <rnagarajan@uams.edu>
 Description: Translate neurodevelopmental event timing across species.
@@ -12,6 +12,6 @@ Description: Translate neurodevelopmental event timing across species.
 License: GPL-2
 Depends: R (>= 2.11.1), pvclust
 LazyLoad: yes
-Packaged: 2010-08-02 18:00:03 UTC; NagarajanRadhakrish
+Packaged: 2010-08-03 21:13:04 UTC; NagarajanRadhakrish
 Repository: CRAN
-Date/Publication: 2010-08-03 05:50:17
+Date/Publication: 2010-08-04 07:47:16
