@@ -1,5 +1,5 @@
 \name{phylo}
-\Rdversion{1.2.4}
+\Rdversion{1.2.5}
 \alias{phylo}
 \title{
  Phylogenetic proximity between species inferred from their neurodevelopmental event timing
@@ -7,7 +7,7 @@
 
 \description{
 
-Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings  (Nagarajan and Clancy 2008) returned by the function \emph{translate}. Complete linkage and euclidean metric are used for generating the dendrogram. Uncertainty in the clustering results is reflected by the \emph{au} (approximately unbiased) and \emph{bp} (bootstrap) probabilities (Shimodaira and Suzuki 2006).
+Dendrogram establishing possible phylogenetic proximity between the species based on hierachical clustering of the known and predicted event timings  (Nagarajan and Clancy 2008; Nagarajan et al., 2010) returned by the function \emph{translate}. Complete linkage and euclidean metric are used for generating the dendrogram. Uncertainty in the clustering results is reflected by the \emph{au} (approximately unbiased) and \emph{bp} (bootstrap) probabilities (Shimodaira and Suzuki 2006).
 
 }
 
@@ -31,6 +31,8 @@ Nagarajan, R., & Clancy, B. (2008). \emph{Phylogenetic proximity revealed by neu
 
 Suzuki, R., Shimodaira, H. (2006). \emph{Pvclust: an R package for assessing the uncertainty in hierarchical clustering.} Bioinformatics, 22,1540-1542.\cr
 
+Nagarajan R, Darlington RB, Finlay BL, Clancy B. (2010). \emph{ttime: an R package for translating the timing of brain development across mammalian species.} Neuroinformatics, 8(3), 201-205.\cr
+
 }
 
 \author{
@@ -40,9 +42,11 @@ Radhakrishnan Nagarajan
 \seealso{\code{\link{event_data}}, \code{\link{translate}}}
 
 \examples{
+\dontrun{
 library(ttime);
-data(event_data); # event timing data
-npsp <- 8;  	  # number of non-primate species
+data(event_data);   # event timing data
+npsp <- 8;  	    # number of non-primate species
 data <- translate(event_data, npsp); # predicted events
 phylo(data); 	  # hierarchical clustering
+}
 }

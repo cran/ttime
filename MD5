@@ -1,0 +1,9 @@
+f2ba9cd513b27258aa42ffe2736cdbe4 *DESCRIPTION
+d39ca3c5f41071ec03da9c4b242192a8 *NAMESPACE
+9480ffc697fccbf10d4770a7d53cb258 *R/phylo.R
+6c263326b9c766728993e26cda1b35d1 *R/translate.R
+788f7c7b5f8586a8420405d7544b8912 *data/event_data.rda
+da41b9bb7fe4c184bade62219641fed2 *man/event_data.Rd
+2981dae5b878bb77a63f55825972e5df *man/phylo.Rd
+6e9176c0ed526946ed835572d722742c *man/translate.Rd
+3a478c6d0988f61d53af9e5e1d5adbbf *man/ttime-package.Rd

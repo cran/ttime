@@ -17,4 +17,3 @@ function (data){
    dendro  <- pvclust(dat, method.dist="euclidean", method.hclust = "complete", nboot = 1000);
    dev.new(); plot(dendro);
 }
-

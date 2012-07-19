@@ -1,14 +1,14 @@
 translate <-
-function (yo, npsp) {
+function (event_data, npsp) {
 
-      dim_yo <- dim(yo);        #Dimension of the given matrix yo
-      col_names <- names(yo);   #Names of the columns in yo
-      y = yo[,2:(dim_yo[2]-1)]; #Matrix after trimming the columns (event names and references)
+      dim_data <- dim(event_data);        #Dimension of the given matrix data
+      col_names <- names(event_data);     #Names of the columns in data
+      y = event_data[,2:(dim_data[2]-1)]; #Matrix after trimming the columns (event names and references)
 
       #Number of species in the given data 
-      sp   <- dim_yo[2] - 4;  
+      sp   <- dim_data[2] - 4;  
       #Number of events in the given data
-      ev <- dim_yo[1];  
+      ev <- dim_data[1];  
       
      #Number of known event timing
      event_count <- 0; 
@@ -114,7 +114,7 @@ cat("Done........\n");
 tpred <- exp(t(pred_val)) + k; 
 
 #Output of the predicted and empirical values along with their confidence intervals in "results"
-results <- cbind(data.frame(yo[,1]),tpred,yo[,(sp+2)],yo[,(sp+3)], yo[,(sp+4)]); 
+results <- cbind(data.frame(event_data[,1]),tpred,event_data[,(sp+2)],event_data[,(sp+3)], event_data[,(sp+4)]); 
 col_names_out <- array('x',3*sp+2); col_names[1] ='';
 
   for (i in 1:sp){
@@ -127,5 +127,4 @@ col_names_out <- array('x',3*sp+2); col_names[1] ='';
   
   results; 
 
-} # end of function translate
-
+}
